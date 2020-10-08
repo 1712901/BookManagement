@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+    <link rel="stylesheet" type="text/css" href="css/menuside.css">
+    <link href="fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fuild">
+        <!-- Content here -->
+        {{>components/navbar}}
+        <div class="row m-0">
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10 ">
+                <div class="row py-2">
+                    <div class="col-md-6">
+                        <h3>Báo cáo tồn kho</h3>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <input type="month" id="datePicker" name="date">
+                        <button type="button" class="btn btn-primary mx-2 " data-toggle="modal"
+                            data-target="#PopupCreatePerson" id="submitForm">Xuất báo cáo</button>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <table class="table table-striped" id="tbBaoCao">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="10%">STT</th>
+                                <th scope="col" width="25%">Tên Sách</th>
+                                <th scope="col" width="20%">Tác Giả</th>
+                                <th scope="col" width="15%">Tồn đầu</th>
+                                <th scope="col" width="15%">Phát sinh</th>
+                                <th scope="col" width="15%">Tồn cuối</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            $('#datePicker').val(date.getFullYear() + "-" + (month < 10 ? '0' + month : month));
+            $('#submitForm').click(function(){
+                jQuery.post('/admin/BaoCao/TonSach',{date: $('#datePicker').val()},function(resp,status){
+                    const data=JSON.parse(resp);
+                    $('#tbBaoCao tbody').empty();
+                    for(let i=0;i<data.length;i++){
+                        $('#tbBaoCao tbody').append(`
+                            <tr>
+                                <th scope="row"><a href="/admin/Book/IDBook=${data[i].IDSACH}">${data[i].IDSACH}</a></th>
+                                <td>${data[i].TEN}</td>
+                                <td>${data[i].TACGIA}</td>
+                                <td>${data[i].TonDau}</td>
+                                <td>${data[i].PhatSinh}</td>
+                                <td>${data[i].TonCuoi}</td>
+                            </tr>
+                        `);
+                    };
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

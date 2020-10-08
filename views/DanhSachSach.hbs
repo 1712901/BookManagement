@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/menuside.css">
+    <link href="../public/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fuild">
+        <!-- Content here -->
+        {{>components/navbar}}
+        <div class="row m-0">
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10 ">
+                <div class="row m-2">
+                    <form style="width:100%" id="Filter">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 ">
+                                <label for="formGroupExampleInput"><b>Số Lượng</b></label>
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="SoLuong" id="inlineRadio1"
+                                            value="-1" checked>
+                                        <label class="form-check-label" for="inlineRadio1">Tất cả</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="SoLuong" id="inlineRadio1"
+                                            value="1">
+                                        <label class="form-check-label" for="inlineRadio1">Dưới 50</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="SoLuong" id="inlineRadio1"
+                                            value="2">
+                                        <label class="form-check-label" for="inlineRadio1">Dưới 100</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="SoLuong" id="inlineRadio1"
+                                            value="3">
+                                        <label class="form-check-label" for="inlineRadio1">Trên 100</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-md-4 mb-0">
+                                <label for="formGroupExampleInput"><b>Thể loại</b></label>
+                                <select id="inputState" class="form-control" name="TheLoai">
+                                    <option selected value="-1">Tất cả</option>
+                                    {{#each listOption}}
+                                    <option value="{{IDLOAISACH}}">{{TEN}}</option>
+                                    {{/each}}
+                                </select>
+
+                            </div>
+                            <div class="form-group col-md-2 d-flex justify-content-center mb-0">
+                                <button type="submit" type="button" class="btn btn-info align-self-center">Lọc</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="row">
+                    <table class="table table-striped books">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã</th>
+                                <th scope="col">Tên Sách</th>
+                                <th scope="col">Tác giả</th>
+                                <th scope="col">Tồn kho</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each listBook}}
+                            <tr>
+                                <th scope="row"><a href="/admin/Book/IDBook={{IDSACH}}">{{IDSACH}}</a></th>
+                                <td>{{TEN}}</td>
+                                <td>{{TACGIA}}</td>
+                                <td>{{SOLUONG}}</td>
+                                <td>{{GIA}}</td>
+                                <td>
+                                    <button type="button" class="btn btn btn-primary PhieuNhap" value="{{IDSACH}}"><i
+                                            class="fas fa-plus-circle"></i> Nhập</button>
+
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{>components/PopupAddSuccess}}
+    {{>components/PopupAddFail}}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+ 
+    <!-- Code xử lý sự kiện click button trên card -->
+    <script src="../public/js/BookCard.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Filter').submit(function (e) {
+                e.preventDefault();
+                const data = $(this).serializeArray();
+                jQuery.post("/admin/ListBook", data, function (data, status) {
+                    const listBook = JSON.parse(data);
+                    $('table.books tbody').empty();
+                    for (let i = 0; i < listBook.length; i++) {
+                        $('table.books tbody').append(`
+                            <tr>
+                                <th scope="row"><a href="/admin/Book/IDBook=${listBook[i].IDSACH}">${listBook[i].IDSACH}</a></th>
+                                <td>${listBook[i].TEN}</td>
+                                <td>${listBook[i].TACGIA}</td>
+                                <td>${listBook[i].SOLUONG}</td>
+                                <td>${listBook[i].GIA}</td>
+                                <td>
+                                    <button type="button" class="btn btn btn-primary PhieuNhap" value="${listBook[i].IDSACH}"><i
+                                            class="fas fa-plus-circle"></i> Nhập</button>
+
+                                </td>
+                            </tr>
+                        `);
+                    }
+                });
+            })
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+    <link rel="stylesheet" type="text/css" href="css/menuside.css">
+    <link href="fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fuild">
+        {{>components/navbar}}
+        <!-- Page Content -->
+        <div class="row m-0">
+            <!-- Portfolio Item Row -->
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10">
+                <div class="row m-0 p-3">
+                    <form method="POST" action="/admin/book/SaveOrUpdate" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <img class="img-fluid"
+                                    src="{{#if detailBook.IMAGE }}/{{detailBook.IMAGE}} {{else}}http://placehold.it/750x500 {{/if}}"
+                                    alt="" id="avatar" style="max-width:400px;max-height:max-content">
+                                <input type="file" name="imgavatar" id="imgInp" accept="image/*" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Name">Tên Sách</label>
+                                    <input class="form-control" id="Name" name="BookName" value="{{detailBook.TEN}}"
+                                        required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="Author">Tác Giả</label>
+                                        <input class="form-control" id="Author" name="author"
+                                            value="{{detailBook.TACGIA}}" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="Genre">Thể loại</label>
+                                        <select class="custom-select" id="Genre" name="genre">
+                                            {{#Option listOption detailBook.THELOAI}}
+                                            {{/Option}}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="Price">Giá bán</label>
+                                        <input type="number" class="form-control" id="Price" name="Price"
+                                            value="{{detailBook.GIA}}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Tồn kho</label>
+                                        <input type="number" class="form-control" disabled
+                                            value="{{detailBook.SOLUONG}}">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Đã bán</label>
+                                        <input type="number" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-row d-flex justify-content-end">
+                                    <button type="button" class="btn btn-outline-primary PhieuBan mx-2"
+                                        value="{{detailBook.IDSACH}}"><i class="fas fa-plus-circle"></i>Phiếu
+                                        Bán</button>
+                                    <button type="button" class="btn btn btn-primary PhieuNhap"
+                                        value="{{detailBook.IDSACH}}"><i class="fas fa-plus-circle"></i>Phiếu
+                                        Nhập</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Related Projects Row -->
+                        <div class="form-row">
+                            <h4 class="my-4">Description</h4>
+                            <textarea class="form-control" aria-label="With textarea" rows="10" style="height:100%"
+                                name="description">{{detailBook.MIEUTA}}</textarea>
+                        </div>
+                        <!-- /.row -->
+                        <div class="row">
+                            <button type="submit" name="btnID" class="btn btn-primary my-2"
+                                value="{{detailBook.IDSACH}}">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    {{>components/PopupAddSuccess}}
+    {{>components/PopupAddFail}}
+    <!-- /.container -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="js/BookCard.js"></script>
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+        {{!-- $(document).ready(function () {
+            $(".PhieuNhap").click(function () {
+                console.log(this.value);
+                const id = this.value;
+                jQuery.post("/admin/QuiDinh/SLCanNhap", { ID: id }, function (data, status) {
+                    console.log(data);
+                    var resp = JSON.parse(data);
+                    if (resp.status) {
+                        localStorage.setItem(id, resp.min);
+                        $('#addSuccess').modal('toggle');
+                    } else {
+                        $('#addFail').modal('toggle');
+                    }
+                });
+            });
+            $(".PhieuBan").click(function () {
+                console.log(this.value);
+                sessionStorage.setItem(this.value, 15);
+            });
+        }); --}}
+
+    </script>
+</body>
+
+</html>

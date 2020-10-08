@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        {{>components/navbar}}
+    </div>
+    <!-- Page Content -->
+    <div class="container my-3">
+        <!-- Portfolio Item Row -->
+        <div class="row">
+            <form method="POST" action="/admin/ImportBook/IDBook={{detailBook.IDSACH}}">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="http://placehold.it/750x500" alt="" id="avatar"
+                            style="max-width:400px;max-height:max-content">
+                        <input type="file" name="imgavatar" id="imgInp" accept="image/*" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Tên Sách</label>
+                            <input class="form-control" id="Name" name="BookName" value="{{detailBook.TEN}}">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Author">Tác Giả</label>
+                                <input class="form-control" id="Author" name="author" value="{{detailBook.TACGIA}}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Genre">Thể loại</label>
+                                <select class="custom-select" id="Genre" name="genre">
+                                    {{#Option listOption detailBook.THELOAI}}
+                                    {{/Option}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="Price">Giá bán</label>
+                                <input type="number" class="form-control" id="Price" name="Price" value="{{detailBook.GIA}}">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Tồn kho</label>
+                                <input type="number" class="form-control" id = "Quantity" name="Quantity" value="{{detailBook.SOLUONG}}">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Đã bán</label>
+                                <input type="number" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Related Projects Row -->
+                <div class="form-row col-md-4 col-md-offset-4">
+                    <label>Số lượng nhập</label>
+                    <input type="number" class="form-control" id="addQuantity" name="addQuantity" {{#if block}}disabled>
+                    <div>Không thể nhập sách với lượng tồn hơn 300</div
+                    {{/if}}>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <button type="submit" name="btnID" class="btn btn-primary my-2" value="null">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        {{!-- <div class="col-md-6">
+            <form action="/SaveOrUpdateBook" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="Name">Tên Sách</label>
+                    <input class="form-control" id="Name">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Tác Giả</label>
+                    <input class="form-control" id="Author">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputCity">Giá bán</label>
+                        <input type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState">Tồn kho</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputZip">Đã bán</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div> --}}
+
+    </div>
+    <!-- /.row -->
+
+
+
+    </div>
+    <!-- /.container -->
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="../public/js/PhieuNhap.js"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<div class="modal fade" id="PopupDetailBook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông tin Sách</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="FormInfBook" method="POST" action="/admin/Book/SaveOrUpdate" enctype="multipart/form-data"
+                    style="width: 100%;">
+                    <div class="form-row">
+                        <div class="col-md-6 d-block">
+                            <img class="img-fluid"
+                                src="{{#if detailBook.IMAGE }}/{{detailBook.IMAGE}} {{else}}https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg {{/if}}"
+                                alt="" id="avatar" style="max-width:350px;max-height:max-content">
+                            <input type="file" name="imgavatar" id="imgInp" accept="image/*" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                
+                                <label for="Name">Tên Sách</label>
+                                <input class="form-control" id="Name" name="BookName" value="{{detailBook.TEN}}" required >
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="Author">Tác Giả</label>
+                                    <input class="form-control" id="Author" name="author" value="{{detailBook.TACGIA}}" required >
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="Genre">Thể loại</label>
+                                    <select class="custom-select" id="Genre" name="genre">
+                                        {{#Option listOption detailBook.THELOAI}}
+                                        {{/Option}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="Price">Giá bán</label>
+                                    <input type="number" class="form-control" id="Price" name="Price"
+                                        value="{{detailBook.GIA}}" required >
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Tồn kho</label>
+                                    <input type="number" class="form-control" disabled value="{{detailBook.SOLUONG}}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đã bán</label>
+                                    <input type="number" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Related Projects Row -->
+                    <div class="form-row">
+                        <h4 class="my-4">Miêu Tả</h4>
+                        <textarea class="form-control" aria-label="With textarea" rows="10" style="height:100%"
+                            name="description">{{detailBook.MIEUTA}}</textarea>
+                    </div>
+                    <!-- /.row -->
+                    <div class="row">
+                        <button type="submit" name="btnID" class="btn btn-primary my-2"
+                            value="{{#if detailBook.IDSACH}} {{detailBook.IDSACH}} {{else}}null{{/if}}">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

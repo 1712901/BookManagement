@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Danh Mục Sản Phẩm</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/menuside.css">
+    <link href="../public/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        {{> components/navbar}}
+    </div>
+    <div class="row m-0">
+        <div class="col-md-2 p-0">
+            {{> components/menuside}}
+        </div>
+        <div class="col-md-10 ">
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <h3>Danh sách danh mục</h3>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary mx-2 " id="addCategory" data-toggle="modal">Thêm danh mục</button>
+                </div>
+            </div>
+            <div class="row p-3">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 20%;">Mã</th>
+                            <th scope="col" style="width: 60%;">Tên</th>
+                            <th scope="col" style="width: 20%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data}}
+                        <tr>
+                            <th class="align-middle id" scope="row">{{IDLOAISACH}}</th>
+                            <td class="align-middle ten">{{TEN}}</td>
+                            <td class="justify-content-center d-flex"><button type="button"
+                                    class="btn btn-outline-success edit"> <i class="fas fa-edit"></i></button></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{>components/PopupUpdateCategory}}
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.edit').click(function () {
+                const trtable = $(this).parent().parent();
+                $('#MaDanhMuc').val(trtable.find('.id').text());
+                $('#TenDanhMuc').val(trtable.find('.ten').text());
+                $('#title').text("Cập Nhật Danh Mục");
+                $('#MaDanhMuc').text("Update");
+
+                $('#ModalUpdate').modal('toggle');
+            });
+            $('#addCategory').click(function(){
+                $('#UpdateCategory').attr('action','/admin/DanhMucSanPham/Create');
+                $('#MaDanhMuc').val('');
+                $('#TenDanhMuc').val('');
+                $('#title').text("Thêm Danh Mục");
+                $('#MaDanhMuc').text("Add");
+                $('#ModalUpdate').modal('toggle');
+            })
+        });
+    </script>
+</body>
+
+</html>

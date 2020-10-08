@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/menuside.css">
+    <link href="../public/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container-fuild">
+        {{>components/navbar}}
+        <div class="row m-0">
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10">
+                <div class="row py-2">
+                    <div class="col-md-6">
+                        <h3>Phiếu Nhập Sách</h3>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary mx-2 " data-toggle="modal"
+                            data-target="#PopupDetailBook">Create New Book</button>
+                        <button type="button" class="btn btn-danger" onclick="RemoveAll()">Remove All</button>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <table class="table table-striped" id="tbPhieu">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="10%">Mã sách</th>
+                                <th scope="col" width="25%">Tên Sách</th>
+                                <th scope="col" width="15%">Tác Giả</th>
+                                <th scope="col" width="10%">Số lượng</th>
+                                <th scope="col" width="15%">Tồn Kho</th>
+                                <th scope="col" width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row my-2 d-flex justify-content-center">
+                    <button type="button" class="btn btn-success" onclick="submitPhieuNhap()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{> components/PopupSuccess}}
+    {{> components/PopupDetailBook}}
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="../public/js/PhieuNhap.js"></script>
+    <script type="text/javascript">
+        function remove(btnTag) {
+            const trTable = $(btnTag).parent().parent();
+            const idBook = $(trTable).find('th').text();
+            localStorage.removeItem(idBook);
+            trTable.remove();
+        };
+        function RemoveAll() {
+            localStorage.clear();
+            $('tbody tr').remove();
+        }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#avatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+        $(document).ready(function () {
+            let min=50;
+            jQuery.get('/admin/QuiDinh/MinSLNhap',function(data,status){
+                const quiDinh=JSON.parse(data);
+                
+                let keys = Object.keys(localStorage);
+            for (let key of keys) {
+                //let data= JSON.parse(localStorage.getItem(key));
+                jQuery.get(`/admin/Book/DataBook=${key}`, function (data, textStatus, jqXHR) {
+                    $("#tbPhieu").find('tbody')
+                        .append(`
+                     <tr>
+                                <th scope="row">${key}</th>
+                                <td>${data.TEN}</td>
+                                <td>${data.TACGIA}</td>
+                                <td><input class="toggle-tooltip" onfocusout="inFocusOut(this,${quiDinh.value})" onmousemove="FucOnMouseMove(this)" title="Nhập ít nhất ${quiDinh.value} cuốn sách" type="number" value="${localStorage.getItem(key)}"  style="width:100px" min="${quiDinh.value}" required></td>
+                                <td>${data.SOLUONG}</td>
+                                <td class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-danger btntrash" onclick="remove(this)"><i
+                                            class="fas fa-trash-alt "></i></button>
+                                </td>
+                            </tr>
+                `);
+                });
+
+            }
+
+            });
+            
+
+
+            
+        });
+    </script>
+</body>
+
+</html>

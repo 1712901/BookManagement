@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/menuside.css">
+    <link href="../public/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fuild">
+        <!-- Content here -->
+        {{>components/navbar}}
+        <div class="row m-0">
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10 py-3">
+                <div class="row ml-2 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <h3>Một Số Qui Định</h3>
+                        </div>
+                        <div class="row">
+                            <form method="POST" action="#" id="FormUpdate">
+                                <div class="form-row">
+                                    <div>
+                                        {{#each QuiDinh}}
+                                        <div class="form-group">
+                                            <label for="Name">{{TENQD}}</label>
+                                            <input  type="number" class="form-control" name="{{IDQUIDINH}}"
+                                                value="{{GIATRIQD}}"required>
+                                        </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button class="btn btn-primary my-2" id="submit" type="submit" >Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#submit').click(function(event){
+                event.preventDefault();
+                const data= $("#FormUpdate").serializeArray();
+                jQuery.post('/admin/QuiDinh/UpdateQD',data,function(dataRes,status){
+                    console.log(dataRes);
+                })
+            });
+        });
+    </script>
+</body>
+
+</html>

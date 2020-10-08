@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/menuside.css">
+    <link href="../public/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <!-- Content here -->
+        {{>components/navbar}}
+        <div class="row m-0">
+            <div class="col-md-2 p-0">
+                {{> components/menuside}}
+            </div>
+            <div class="col-md-10 py-2">
+                <div class="row px-2">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <h3>Danh sách phiếu nhập</h3>
+                        </div>
+                        <div class="row">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Mã</th>
+                                        <th scope="col">Thời Gian</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each danhSachPhieu}}
+                                    <tr>
+                                        <th scope="row"><a href="" class="phieu">{{IDPHIEU}}</a></th>
+                                        <td>{{#ConvertDat THOIGIAN}}{{/ConvertDat}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row justify-content-end">
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <h3 class="TitleChitiet">Chi Tiết Phiếu Nhập</h3>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Mã</th>
+                                                <th scope="col">Tên Sách</th>
+                                                <th scope="col">Số Lượng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="chitiet">
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <!-- Code xử lý sự kiện click button trên card -->
+        <script src="../public/js/BookCard.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("a.phieu").click(function (e) {
+                    e.preventDefault();
+                    const idPhieu=$(this).text();
+                    $('.TitleChitiet').text(`Chi Tiết Phiếu Nhập - ${idPhieu}`)
+                    jQuery.get(`/admin/LichSuNhapSach/idPhieu=${idPhieu}`,function(data,status){
+                        console.log(data);
+                        $('tbody.chitiet').empty();
+                        const listBook=JSON.parse(data);
+                        for(let i=0;i<listBook.length;i++){
+                            $('tbody.chitiet').append(`
+                            <tr>
+                                                <th scope="row" width="20%">${listBook[i].IDSACH}</th>
+                                                <td width="60%">${listBook[i].TEN}</td>
+                                                <td width="30%">${listBook[i].SOLUONG}</td>
+                                            </tr>
+                            `)
+                        }
+                    })
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>
